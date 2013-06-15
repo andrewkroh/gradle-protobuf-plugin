@@ -1,0 +1,139 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+group = 'com.krohinc.gradle'
+sourceCompatibility = 1.5
+targetCompatibility = 1.5
+version = '0.2.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Protobuf Plugin',
+                   'Implementation-Version': version,
+                   'Built-By': System.getProperty('user.name'),
+                   'Built-Date': new Date(),
+                   'Built-JDK': System.getProperty('java.version'),
+                   'Built-Gradle': gradle.gradleVersion
+    }
+}
+
+ext.pomConfiguration = {
+    project {
+        name 'Gradle Protobuf Plugin'
+        description 'Gradle plugin that provides tasks generating source files from ' +
+                '.proto files using the Google Protocol Buffers compiler.'
+        url 'https://github.com/andrewkroh/gradle-protobuf-plugin'
+        inceptionYear '2012'
+
+        scm {
+            url 'https://github.com/andrewkroh/gradle-protobuf-plugin'
+            connection 'scm:https://andrewkroh@github.com/andrewkroh/gradle-protobuf-plugin.git'
+            developerConnection 'scm:git://github.com/andrewkroh/gradle-protobuf-plugin.git'
+        }
+
+        licenses {
+            license {
+                name 'The Apache Software License, Version 2.0'
+                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+
+        developers {
+            developer {
+                id 'andrewkroh'
+                name 'Andrew Kroh'
+            }
+        }
+    }
+}
+
+idea.project {
+    jdkName = '1.6'
+
+    ipr.withXml { provider ->
+        def node = provider.asNode()
+
+        // Use GIT
+        def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
+        vcsConfig.mapping[0].'@vcs' = 'Git'
+
+        // Set Gradle home
+        def gradleSettings = node.appendNode('component', [name: 'GradleSettings'])
+        gradleSettings.appendNode('option', [name: 'SDK_HOME', value: gradle.gradleHomeDir])
+    }
+}
+
+task groovydocJar(type: Jar, dependsOn: groovydoc) {
+    classifier = 'groovydoc'
+    from groovydoc.destinationDir
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives groovydocJar
+    archives sourcesJar
+}
+
+signing {
+    required { gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            beforeDeployment { mavenDeployment ->
+                signing.signPom(mavenDeployment)
+            }
+
+            def repositoryUsername = project.hasProperty('nexusUsername') ? nexusUsername : ''
+            def repositoryPassword = project.hasProperty('nexusPassword') ? nexusPassword : ''
+
+            repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2') {
+                authentication(userName: repositoryUsername, password: repositoryPassword)
+            }
+
+            pom(pomConfiguration)
+        }
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
+}
+
+tasks['uploadArchives'].mustRunAfter tasks.withType(Test)
+
+gradle.taskGraph.whenReady { taskGraph ->
+    if (taskGraph.hasTask(':uploadArchives'))
+    {
+        if (!taskGraph.hasTask(':test'))
+        {
+            throw new StopExecutionException('Test task must be run for releases that ' +
+                    'will be uploaded.')
+        }
+
+        if (!project.hasProperty('nexusUsername') || !project.hasProperty('nexusPassword'))
+        {
+            throw new StopExecutionException('To upload archives you must provide your ' +
+                    'nexuxUsername and nexusPassword as properties.')
+        }
+    }
+}

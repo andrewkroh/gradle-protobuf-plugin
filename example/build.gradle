@@ -1,0 +1,28 @@
+apply plugin: 'protobuf'
+
+buildscript {
+    repositories {
+        // Only needed for testing against the plugin version 
+        // installed to the local M2 repository.
+        mavenLocal()
+
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath group: 'com.krohinc.gradle', name: 'gradle-protobuf-plugin', version: '+'
+    } 
+}
+
+repositories {
+    mavenCentral()
+}
+
+version = '1.0'
+
+protobuf {
+    // Explicitly setting protocol buffers version
+    // so that the build will fail if this specific
+    // version of the compiler is not present.
+    version = '2.4.1'
+}
