@@ -32,7 +32,7 @@ jar {
 ext.pomConfiguration = {
     project {
         name 'Gradle Protobuf Plugin'
-        description 'Gradle plugin that provides tasks generating source files from ' +
+        description 'Gradle plugin that provides tasks for generating source files from ' +
                 '.proto files using the Google Protocol Buffers compiler.'
         url 'https://github.com/andrewkroh/gradle-protobuf-plugin'
         inceptionYear '2012'
@@ -137,3 +137,4 @@ gradle.taskGraph.whenReady { taskGraph ->
         }
     }
 }
+
