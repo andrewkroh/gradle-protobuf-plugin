@@ -2,11 +2,12 @@ apply plugin: 'protobuf'
 
 buildscript {
     repositories {
-        // Only needed for testing against the plugin version 
-        // installed to the local M2 repository.
-        mavenLocal()
-
-        mavenCentral()
+        ivy {
+            url 'http://blog.crowbird.com/artifacts'
+            layout 'pattern', {
+                artifact '[organisation]/[artifact]-[revision](-[classifier])(.[ext])'
+            }
+        }
     }
 
     dependencies {

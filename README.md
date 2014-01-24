@@ -28,13 +28,19 @@ The plugin JAR needs to be defined in the classpath of your build script. It wil
 ```groovy
 buildscript {
     repositories {
-        // It's not in maven central yet.
-        mavenCentral()
-    }   
+        // This works at the moment but is not guaranteed to work after
+        // the artifact is added to maven central.
+        ivy {
+            url 'http://blog.crowbird.com/artifacts'
+            layout 'pattern', {
+                artifact '[organisation]/[artifact]-[revision](-[classifier])(.[ext])'
+            }
+        }
+    }
 
     dependencies {
         classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.2.0'
-    }   
+    } 
 }
 ```
 
