@@ -3,4 +3,4 @@
  * 
  * @author Andrew Kroh
  */
-package com.krohinc.gradle.plugins.protobuf
+package com.andrewkroh.gradle.plugins.protobuf

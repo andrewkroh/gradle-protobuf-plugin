@@ -3,7 +3,7 @@ apply plugin: 'idea'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-group = 'com.krohinc.gradle'
+group = 'com.andrewkroh.gradle'
 sourceCompatibility = 1.5
 targetCompatibility = 1.5
 version = '0.2.0'
@@ -15,7 +15,7 @@ repositories {
 dependencies {
     compile gradleApi()
 
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    testCompile 'junit:junit:4.11'
 }
 
 jar {
@@ -60,22 +60,6 @@ ext.pomConfiguration = {
     }
 }
 
-idea.project {
-    jdkName = '1.6'
-
-    ipr.withXml { provider ->
-        def node = provider.asNode()
-
-        // Use GIT
-        def vcsConfig = node.component.find { it.'@name' == 'VcsDirectoryMappings' }
-        vcsConfig.mapping[0].'@vcs' = 'Git'
-
-        // Set Gradle home
-        def gradleSettings = node.appendNode('component', [name: 'GradleSettings'])
-        gradleSettings.appendNode('option', [name: 'SDK_HOME', value: gradle.gradleHomeDir])
-    }
-}
-
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
     classifier = 'groovydoc'
     from groovydoc.destinationDir
@@ -92,8 +76,31 @@ artifacts {
 }
 
 signing {
-    required { gradle.taskGraph.hasTask("uploadArchives") }
+    required { gradle.taskGraph.hasTask("uploadArchives") ||
+               gradle.taskGraph.hasTask("install") }
     sign configurations.archives
+}
+
+// GRADLE-1285 - workaround to get <packaging>jar</packaging>
+//               into the pom file
+def pomPackagingElement = { root ->
+    def children = root.asNode().children()
+    def versionIndex = children.indexOf(children.find {it.name().localPart == 'version'})
+    children.add(versionIndex + 1, new Node(null, 'packaging', 'jar'))
+}
+
+install {
+    repositories {
+        mavenInstaller {
+            beforeDeployment { mavenDeployment ->
+                signing.signPom(mavenDeployment)
+            }
+
+            pom(pomConfiguration)
+
+            pom.withXml pomPackagingElement
+        }
+    }
 }
 
 uploadArchives {
@@ -116,7 +123,7 @@ uploadArchives {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
+    gradleVersion = '1.8'
 }
 
 tasks['uploadArchives'].mustRunAfter tasks.withType(Test)

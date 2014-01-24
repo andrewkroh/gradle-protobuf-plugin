@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.krohinc.gradle.plugins.protobuf
+package com.andrewkroh.gradle.plugins.protobuf
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -116,15 +116,16 @@ class ProtobufPlugin implements Plugin<Project> {
 
         String version
 
-        // Protoc returns exit code 1 when called with --version.
-        if (process.exitValue() == 1)
+        // Protoc returns exit code 0 or 1 depending on version
+        // when called with --version.
+        if (process.exitValue() == 0 || process.exitValue() == 1)
         {
             version = output.toString().trim().replaceAll("libprotoc\\s", "");
         }
         else
         {
-            throw new InvalidUserDataException("Protoc failed:\n" +
-                    output.toString())
+            throw new InvalidUserDataException("Protoc failed (exit code " + 
+                    process.exitValue() + "):\n" + output.toString())
         }
 
         logger.info("Detected version <$version> of the Protocol Buffer compiler.")

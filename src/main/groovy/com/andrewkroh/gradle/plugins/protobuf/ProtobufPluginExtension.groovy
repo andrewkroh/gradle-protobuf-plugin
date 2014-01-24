@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.krohinc.gradle.plugins.protobuf
+package com.andrewkroh.gradle.plugins.protobuf
 
 /**
  * Plugin extension object that becomes available as a project property with the
@@ -26,8 +26,8 @@ package com.krohinc.gradle.plugins.protobuf
 class ProtobufPluginExtension {
     
     /**
-     * Name of the Google Protocol Buffer compiler that the plugin will execute.
-     * Default value is 'protoc'.
+     * Name (or full path) of the Google Protocol Buffer compiler that the 
+     * plugin will execute. Default value is 'protoc'.
      */
     String compiler = 'protoc'
 
@@ -48,17 +48,17 @@ class ProtobufPluginExtension {
      * Output directory for generated java source files. The value is relative
      * to the project build directory.
      */
-    String outputJava = 'generated-src/java'
+    String outputJava = 'generated/java'
 
     /**
      * Output directory for generated CPP source files. The value is relative to
      * the project build directory.
      */
-    String outputCpp = 'generated-src/cpp'
+    String outputCpp = 'generated/cpp'
 
     /**
      * Output directory for generated python source files. The value is relative
      * to the project build directory.
      */
-    String outputPython = 'generated-src/python'
+    String outputPython = 'generated/python'
 }

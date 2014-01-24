@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.krohinc.gradle.plugins.protobuf
+package com.andrewkroh.gradle.plugins.protobuf
 
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -53,9 +53,9 @@ class ProtobufPluginTest {
         assertNull(pluginExt.version)
         assertEquals('protoc', pluginExt.compiler)
         assertEquals('src/main/proto', pluginExt.src)
-        assertEquals('generated-src/java', pluginExt.outputJava)
-        assertEquals('generated-src/cpp', pluginExt.outputCpp)
-        assertEquals('generated-src/python', pluginExt.outputPython)
+        assertEquals('generated/java', pluginExt.outputJava)
+        assertEquals('generated/cpp', pluginExt.outputCpp)
+        assertEquals('generated/python', pluginExt.outputPython)
     }
 
     @Test
