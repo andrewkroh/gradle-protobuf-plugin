@@ -23,18 +23,12 @@ Usage
 apply plugin: 'protobuf'
 ```
 
-The plugin JAR needs to be defined in the classpath of your build script. It will be available from maven central soon.
+The plugin JAR needs to be defined in the classpath of your build script. It is available from maven central.
 
 ```groovy
 buildscript {
     repositories {
-        // This works at the moment but is not guaranteed to work after
-        // the artifact is added to maven central.
-        ivy {
-            url 'http://blog.crowbird.com/artifacts'
-            layout 'pattern', {
-                artifact '[organisation]/[artifact]-[revision](-[classifier])(.[ext])'
-            }
+            mavenCentral()
         }
     }
 

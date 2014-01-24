@@ -2,12 +2,7 @@ apply plugin: 'protobuf'
 
 buildscript {
     repositories {
-        ivy {
-            url 'http://blog.crowbird.com/artifacts'
-            layout 'pattern', {
-                artifact '[organisation]/[artifact]-[revision](-[classifier])(.[ext])'
-            }
-        }
+        mavenCentral()
     }
 
     dependencies {
@@ -21,6 +16,7 @@ repositories {
 
 version = '1.0'
 
+// Optional configuration:
 protobuf {
     // Explicitly setting protocol buffers version
     // so that the build will fail if this specific
