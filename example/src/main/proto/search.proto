@@ -1,0 +1,11 @@
+package search.protobuf;
+
+option java_generate_equals_and_hash = true;
+option java_package = "com.andrewkroh.search.protobuf";
+option java_outer_classname = "Protobufs";
+
+message SearchRequest {
+  required string query = 1;
+  optional int32 page_number = 2;
+  optional int32 result_per_page = 3;
+}

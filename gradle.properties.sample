@@ -1,0 +1,6 @@
+signing.keyId=12345678
+signing.password=pass
+signing.secretKeyRingFile=/Users/username/.gnupg/secring.gpg
+
+nexusUsername=user
+nexusPassword=pass
