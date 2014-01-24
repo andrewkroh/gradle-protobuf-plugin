@@ -61,7 +61,7 @@ ext.pomConfiguration = {
 }
 
 task groovydocJar(type: Jar, dependsOn: groovydoc) {
-    classifier = 'groovydoc'
+    classifier = 'javadoc'
     from groovydoc.destinationDir
 }
 
