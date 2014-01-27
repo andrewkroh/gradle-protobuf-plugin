@@ -2,7 +2,7 @@ Gradle Protobuf Plugin ![Build Status](https://blog.crowbird.com/build-status/gr
 =====================
 - Author: Andrew Kroh
 - Website: http://blog.crowbird.com
-- Download: http://blog.crowbird.com/artifacts/gradle-protobuf-plugin/
+- Download: See [maven central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.andrewkroh.gradle%22)
 - License: Apache License, Version 2.0
 - Requirements: Java 1.5+
 - Google Protocol Buffer Compiler (protoc): Any version
