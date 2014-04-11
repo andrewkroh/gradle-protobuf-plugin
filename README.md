@@ -28,7 +28,7 @@ The plugin JAR needs to be defined in the classpath of your build script. It is 
 ```groovy
 buildscript {
     repositories {
-            mavenCentral()
+        mavenCentral()
     }
 
     dependencies {
