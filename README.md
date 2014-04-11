@@ -29,7 +29,6 @@ The plugin JAR needs to be defined in the classpath of your build script. It is 
 buildscript {
     repositories {
             mavenCentral()
-        }
     }
 
     dependencies {
