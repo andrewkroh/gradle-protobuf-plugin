@@ -6,7 +6,7 @@ apply plugin: 'signing'
 group = 'com.andrewkroh.gradle'
 sourceCompatibility = 1.5
 targetCompatibility = 1.5
-version = '0.2.0'
+version = '0.3.0'
 
 repositories {
     mavenCentral()
@@ -118,12 +118,14 @@ uploadArchives {
             }
 
             pom(pomConfiguration)
+
+            pom.withXml pomPackagingElement
         }
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.8'
+    gradleVersion = '1.12'
 }
 
 tasks['uploadArchives'].mustRunAfter tasks.withType(Test)
