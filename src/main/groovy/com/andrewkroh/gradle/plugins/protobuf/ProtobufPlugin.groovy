@@ -186,7 +186,7 @@ class ProtobufPlugin implements Plugin<Project> {
 
             String srcDir = new File(project.projectDir.path + File.separator + 
                                      project.protobuf.src).canonicalPath
-            def srcProtoFiles = project.fileTree(srcDir).include('*.proto')
+            def srcProtoFiles = project.fileTree(srcDir).include('**/*.proto')
             def javaOutputDir = project.file(project.buildDir.path + File.separator + 
                                              project.protobuf.outputJava)
             def cppOutputDir = project.file(project.buildDir.path + File.separator + 
