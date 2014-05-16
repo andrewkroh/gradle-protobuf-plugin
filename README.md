@@ -32,7 +32,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.2.0'
+        classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.3.0'
     } 
 }
 ```
