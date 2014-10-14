@@ -32,7 +32,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.3.0'
+        classpath 'com.andrewkroh.gradle:gradle-protobuf-plugin:0.3.1'
     } 
 }
 ```
@@ -68,6 +68,7 @@ The protobuf plugin adds a `protobuf` extension to the project which allows you 
 * `outputCpp` - Output directory for generated CPP source files. The value is relative to the project build directory.
 * `outputJava` - Output directory for generated java source files. The value is relative to the project build directory.
 * `outputPython` - Output directory for generated python source files. The value is relative to the project build directory.
+* `outputToBuildDir` - Output generated files relative to build directory or relative to project root directory.
 
 Example
 -------

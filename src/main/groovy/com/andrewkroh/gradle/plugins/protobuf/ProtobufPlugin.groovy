@@ -83,14 +83,15 @@ class ProtobufPlugin implements Plugin<Project> {
         // Add the 'protobuf' extension object:
         project.extensions.create('protobuf', ProtobufPluginExtension)
 
-        // Add task for compiling .proto files.
-        addCompileProtoTask(project)
-
-        // Add task for creating a sources jar that will
-        // contain all the java files.
-        addSourceJarTask(project)
-
         project.afterEvaluate {
+
+            // Add task for compiling .proto files.
+            addCompileProtoTask(project)
+
+            // Add task for creating a sources jar that will
+            // contain all the java files.
+            addSourceJarTask(project)
+
             String detectedProtocVersion = getProtocVersion(project.protobuf.compiler)
 
             validateProtocVersion(detectedProtocVersion, project.protobuf.version)
@@ -186,13 +187,16 @@ class ProtobufPlugin implements Plugin<Project> {
 
             String srcDir = new File(project.projectDir.path + File.separator + 
                                      project.protobuf.src).canonicalPath
+
+            def buildPath = project.protobuf.outputToBuildDir ? project.buildDir.path : project.projectDir.path
+            buildPath += File.separator
+
             def srcProtoFiles = project.fileTree(srcDir).include('**/*.proto')
-            def javaOutputDir = project.file(project.buildDir.path + File.separator + 
-                                             project.protobuf.outputJava)
-            def cppOutputDir = project.file(project.buildDir.path + File.separator + 
-                                            project.protobuf.outputCpp)
-            def pythonOutputDir = project.file(project.buildDir.path + File.separator + 
-                                            project.protobuf.outputPython)
+
+            def javaOutputDir = project.file(buildPath + project.protobuf.outputJava)
+            def cppOutputDir = project.file(buildPath + project.protobuf.outputCpp)
+            def pythonOutputDir = project.file(buildPath + project.protobuf.outputPython)
+
 
             // Build up the full protoc command:
             def cmd = "${project.protobuf.compiler} "
