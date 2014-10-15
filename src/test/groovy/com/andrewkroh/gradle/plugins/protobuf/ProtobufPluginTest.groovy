@@ -57,14 +57,4 @@ class ProtobufPluginTest {
         assertEquals('generated/cpp', pluginExt.outputCpp)
         assertEquals('generated/python', pluginExt.outputPython)
     }
-
-    @Test
-    public void 'plugin adds compileProto task'() {
-        assertTrue(project.tasks.compileProto instanceof Task)
-    }
-
-    @Test
-    public void 'plugin adds sourcesJar task'() {
-        assertTrue(project.tasks.sourcesJar instanceof Jar)
-    }
 }

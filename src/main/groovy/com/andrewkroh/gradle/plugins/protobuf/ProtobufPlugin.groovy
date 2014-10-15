@@ -83,13 +83,6 @@ class ProtobufPlugin implements Plugin<Project> {
         // Add the 'protobuf' extension object:
         project.extensions.create('protobuf', ProtobufPluginExtension)
 
-        // Add task for compiling .proto files.
-        addCompileProtoTask(project)
-
-        // Add task for creating a sources jar that will
-        // contain all the java files.
-        addSourceJarTask(project)
-
         project.afterEvaluate {
             String detectedProtocVersion = getProtocVersion(project.protobuf.compiler)
 
@@ -97,6 +90,13 @@ class ProtobufPlugin implements Plugin<Project> {
 
             // Add a compile time dependency on the Google protobuf jar.
             addProtobufJarDependency(project, detectedProtocVersion)
+
+            // Add task for compiling .proto files.
+            addCompileProtoTask(project)
+
+            // Add task for creating a sources jar that will
+            // contain all the java files.
+            addSourceJarTask(project)
         }
     }
 
@@ -184,15 +184,20 @@ class ProtobufPlugin implements Plugin<Project> {
         Task compileProtoTask = project.task(COMPILE_PROTO_TASK_NAME) {
             description = COMPILE_PROTO_TASK_DESCRIPTION
 
-            String srcDir = new File(project.projectDir.path + File.separator + 
-                                     project.protobuf.src).canonicalPath
+            def srcRoot = project.projectDir.path + File.separator
+            String srcDir = new File(srcRoot + project.protobuf.src)
+                    .canonicalPath
             def srcProtoFiles = project.fileTree(srcDir).include('**/*.proto')
-            def javaOutputDir = project.file(project.buildDir.path + File.separator + 
-                                             project.protobuf.outputJava)
-            def cppOutputDir = project.file(project.buildDir.path + File.separator + 
-                                            project.protobuf.outputCpp)
-            def pythonOutputDir = project.file(project.buildDir.path + File.separator + 
-                                            project.protobuf.outputPython)
+
+            def generateRoot = project.protobuf.outputToProjectDir ? project
+                    .rootDir.path : project.buildDir.path
+            generateRoot += File.separator
+            def javaOutputDir = project.file(generateRoot + project.protobuf
+                    .outputJava)
+            def cppOutputDir = project.file(generateRoot + project.protobuf
+                    .outputCpp)
+            def pythonOutputDir = project.file(generateRoot + project
+                    .protobuf.outputPython)
 
             // Build up the full protoc command:
             def cmd = "${project.protobuf.compiler} "
@@ -214,7 +219,7 @@ class ProtobufPlugin implements Plugin<Project> {
             // Configure the compileJava task to compile the generated
             // java source files from this task.
             compileJavaTask.source javaOutputDir
-            
+
             doLast {
                 // Create the output dirs if they do not exist:
                 javaOutputDir.exists() || javaOutputDir.mkdirs()

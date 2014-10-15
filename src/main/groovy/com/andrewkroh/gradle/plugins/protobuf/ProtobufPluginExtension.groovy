@@ -61,4 +61,10 @@ class ProtobufPluginExtension {
      * to the project build directory.
      */
     String outputPython = 'generated/python'
+	
+	/**
+     * Output generated files relative to project root directory instead of
+     * relative to build directory.
+     */
+    boolean outputToProjectDir = false
 }
