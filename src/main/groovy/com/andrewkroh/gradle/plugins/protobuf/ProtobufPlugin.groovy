@@ -28,21 +28,21 @@ import org.slf4j.LoggerFactory
  * Gradle plugin for compiling Google Protocol Buffer files (.proto). It
  * generates Java, CPP, and Python source files from the .proto files in
  * src/main/proto.
- * 
+ *
  * <p>
  * This plugin adds a dependency on the Java plugin so that it can compile the
  * generated Java source files.
- * 
+ *
  * <p>
  * This plugin generates a sources jar that contains all of the Java sources
  * (including those generated from the .proto files) in this project.
- * 
+ *
  * <p>
  * The Protocol Buffer compiler must be on the path for the plugin to work. If
  * the protocol buffer is in a different location then specify the full path to
  * the compiler in your build.gradle file using
  * {@code protobuf.compiler = '/full/path/protoc'}.
- * 
+ *
  * @author Andrew Kroh
  */
 class ProtobufPlugin implements Plugin<Project> {
@@ -79,7 +79,7 @@ class ProtobufPlugin implements Plugin<Project> {
         // Ensure that the build-item has a dependency
         // on the Java Plugin.
         project.apply plugin: 'java'
-        
+
         // Add the 'protobuf' extension object:
         project.extensions.create('protobuf', ProtobufPluginExtension)
 
@@ -103,7 +103,7 @@ class ProtobufPlugin implements Plugin<Project> {
     /**
      * Gets the protocol buffer compiler version by calling invoking the
      * compiler with the --version argument.
-     * 
+     *
      * @param compiler
      *            name of the compiler or full path to the compiler
      * @return version number of the compiler
@@ -124,7 +124,7 @@ class ProtobufPlugin implements Plugin<Project> {
         }
         else
         {
-            throw new InvalidUserDataException("Protoc failed (exit code " + 
+            throw new InvalidUserDataException("Protoc failed (exit code " +
                     process.exitValue() + "):\n" + output.toString())
         }
 
@@ -136,7 +136,7 @@ class ProtobufPlugin implements Plugin<Project> {
     /**
      * Validates that the version of protoc binary matches the version
      * configured to be used by this plugin.
-     * 
+     *
      * @param detectedVersion
      *            name of the compiler to test
      * @param requiredVersion
@@ -155,13 +155,13 @@ class ProtobufPlugin implements Plugin<Project> {
 
     /**
      * Adds a dependency on the specified version of the protobuf-java jar(s).
-     * 
+     *
      * @param project
      *            Gradle project on which to add the dependency
      * @param protobufVersion
      *            version of Google Protocol Buffers used
      */
-    void addProtobufJarDependency(final Project project, 
+    void addProtobufJarDependency(final Project project,
                                   final String protobufVersion)
     {
         // Add a dependency on the protocol buffer jar:
@@ -173,7 +173,7 @@ class ProtobufPlugin implements Plugin<Project> {
     /**
      * Adds the 'compileProto' task to the project which is responsible for
      * compiling .proto files into java, cpp, and python.
-     * 
+     *
      * @param project
      *            Gradle project on which to add the dependency
      */
@@ -184,20 +184,19 @@ class ProtobufPlugin implements Plugin<Project> {
         Task compileProtoTask = project.task(COMPILE_PROTO_TASK_NAME) {
             description = COMPILE_PROTO_TASK_DESCRIPTION
 
-            def srcRoot = project.projectDir.path + File.separator
-            String srcDir = new File(srcRoot + project.protobuf.src)
-                    .canonicalPath
+            String srcDir = new File(project.projectDir.path + File.separator +
+                                     project.protobuf.src).canonicalPath
             def srcProtoFiles = project.fileTree(srcDir).include('**/*.proto')
 
-            def generateRoot = project.protobuf.outputToProjectDir ? project
-                    .rootDir.path : project.buildDir.path
+            def generateRoot = project.protobuf.outputToProjectDir ?
+                    project.rootDir.path : project.buildDir.path
             generateRoot += File.separator
-            def javaOutputDir = project.file(generateRoot + project.protobuf
-                    .outputJava)
-            def cppOutputDir = project.file(generateRoot + project.protobuf
-                    .outputCpp)
-            def pythonOutputDir = project.file(generateRoot + project
-                    .protobuf.outputPython)
+            def javaOutputDir = project.file(generateRoot +
+                                             project.protobuf.outputJava)
+            def cppOutputDir = project.file(generateRoot +
+                                            project.protobuf.outputCpp)
+            def pythonOutputDir = project.file(generateRoot +
+                                               project.protobuf.outputPython)
 
             // Build up the full protoc command:
             def cmd = "${project.protobuf.compiler} "
@@ -232,12 +231,12 @@ class ProtobufPlugin implements Plugin<Project> {
                 result.waitForProcessOutput(output, output)
 
                 if (result.exitValue() == 0) {
-                    logger.info("Protocol buffers compiled successfully. " + 
+                    logger.info("Protocol buffers compiled successfully. " +
                         "Output:\n" + output.toString())
-                } 
-                else 
+                }
+                else
                 {
-                    throw new InvalidUserDataException("Protoc failed:\n" + 
+                    throw new InvalidUserDataException("Protoc failed:\n" +
                         output.toString())
                 }
             }
@@ -250,7 +249,7 @@ class ProtobufPlugin implements Plugin<Project> {
     /**
      * Adds the 'sourcesJar' task which packages the java source files for the
      * project into a jar file.
-     * 
+     *
      * @param project
      *            Gradle project on which to add the dependency
      */
@@ -272,7 +271,7 @@ class ProtobufPlugin implements Plugin<Project> {
             classifier = 'sources'
             from compileJavaTask.source
         }
-        
+
         // Add the sources jar as an artifact of the project.
         project.artifacts {
             archives sourcesJarTask

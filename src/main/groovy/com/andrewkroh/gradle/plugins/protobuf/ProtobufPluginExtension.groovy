@@ -20,13 +20,13 @@ package com.andrewkroh.gradle.plugins.protobuf
  * Plugin extension object that becomes available as a project property with the
  * same name as this plugin. It can be used to override the default settings for
  * the plugin.
- * 
+ *
  * @author Andrew Kroh
  */
 class ProtobufPluginExtension {
-    
+
     /**
-     * Name (or full path) of the Google Protocol Buffer compiler that the 
+     * Name (or full path) of the Google Protocol Buffer compiler that the
      * plugin will execute. Default value is 'protoc'.
      */
     String compiler = 'protoc'
@@ -61,8 +61,8 @@ class ProtobufPluginExtension {
      * to the project build directory.
      */
     String outputPython = 'generated/python'
-	
-	/**
+
+    /**
      * Output generated files relative to project root directory instead of
      * relative to build directory.
      */
