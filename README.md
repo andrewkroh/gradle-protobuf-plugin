@@ -1,4 +1,4 @@
-Gradle Protobuf Plugin ![Build Status](https://blog.crowbird.com/build-status/gradle-protobuf-plugin)
+Gradle Protobuf Plugin ![Build Status](https://va.crowbird.com/build-status/gradle-protobuf-plugin)
 =====================
 - Author: Andrew Kroh
 - Website: http://blog.crowbird.com
