@@ -58,6 +58,6 @@ class ProtobufPluginTest {
         assertEquals('generated/cpp', pluginExt.outputCpp)
         assertEquals('generated/python', pluginExt.outputPython)
         assertFalse(pluginExt.outputToProjectDir)
-		assertTrue(pluginExt.autoDependency)
+        assertTrue(pluginExt.autoDependency)
     }
 }

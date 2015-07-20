@@ -166,15 +166,15 @@ class ProtobufPlugin implements Plugin<Project> {
     {
         if (project.protobuf.autoDependency) {
             // Add a dependency on the protocol buffer jar:
-			logger.info("Create dependency for protocol buffers automatically.")
+            logger.info("Create dependency for protocol buffers automatically.")
             project.dependencies {
                 compile group: 'com.google.protobuf', name: 'protobuf-java', version: protobufVersion
             }
         }
-		else
-		{
-			logger.info("Automatic dependecy creation deactivated!")
-		}
+        else
+        {
+            logger.info("Automatic dependecy creation deactivated!")
+        }
     }
 
     /**
