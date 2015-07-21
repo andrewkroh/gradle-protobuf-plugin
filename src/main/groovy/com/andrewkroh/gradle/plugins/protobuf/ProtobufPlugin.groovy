@@ -173,7 +173,7 @@ class ProtobufPlugin implements Plugin<Project> {
         }
         else
         {
-            logger.info("Automatic dependecy creation deactivated!")
+            logger.info("Automatic dependency creation deactivated!")
         }
     }
 
