@@ -69,7 +69,7 @@ The protobuf plugin adds a `protobuf` extension to the project which allows you 
 * `outputJava` - Output directory for generated java source files. The value is relative to the project build directory.
 * `outputPython` - Output directory for generated python source files. The value is relative to the project build directory.
 * `outputToProjectDir` - Output generated files relative to project root directory instead of relative to build directory. Defaults to false.
-* `autoDependency` - Activate or deactivate automatic dependency creation. If true, the dependency on the Java plugin is added automatically based on the Protocol Buffers version number. Defaults to true.
+* `autoDependency` - Activate or deactivate automatic dependency creation. If true, a compile time dependency on `com.google.protobuf:protobuf-java` is added automatically based on the Protocol Buffers version number. Defaults to true.
 
 Example
 -------
