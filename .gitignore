@@ -43,6 +43,7 @@ Thumbs.db
 .project
 .settings
 eclipse-bin
+bin
 
 # IntelliJ #
 ############
