@@ -67,7 +67,7 @@ class ProtobufPluginExtension {
      * relative to build directory.
      */
     boolean outputToProjectDir = false
-    
+
     /**
      * Activate or deactivate automatic dependency creation. Default is 'true',
      * i.e. the dependency is added automatically based on the compiler version.
