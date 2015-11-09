@@ -1,7 +1,6 @@
 Gradle Protobuf Plugin
 =====================
 - Author: Andrew Kroh
-- Website: http://blog.crowbird.com
 - Download: See [maven central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.andrewkroh.gradle%22)
 - License: Apache License, Version 2.0
 - Requirements: Java 1.5+
